@@ -1,13 +1,96 @@
 'use server';
 
-import { supermarketsData } from '@/constants';
+import { prisma } from '@/lib/prisma';
 import { Supermarket } from '@/types';
 
 export async function getSupermarkets(): Promise<Supermarket[]> {
   try {
-    return supermarketsData;
+    const supermarkets = await prisma.supermarket.findMany({
+      include: {
+        prices: {
+          include: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+                category: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        name: 'asc',
+      },
+    });
+
+    return supermarkets;
   } catch (error) {
     console.error('Error fetching supermarkets:', error);
-    throw new Error("Can't fetch supermarkets");
+    return [];
+  }
+}
+
+export async function getSupermarketById(
+  id: string
+): Promise<Supermarket | null> {
+  try {
+    const supermarket = await prisma.supermarket.findUnique({
+      where: { id },
+      include: {
+        prices: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
+
+    return supermarket;
+  } catch (error) {
+    console.error('Error fetching supermarket:', error);
+    return null;
+  }
+}
+
+export async function createSupermarket({
+  name,
+  address,
+  userId,
+}: Pick<Supermarket, 'name' | 'address' | 'userId'>) {
+  try {
+    const newSupermarket = await prisma.supermarket.create({
+      data: {
+        name,
+        address,
+        userId,
+      },
+    });
+
+    return newSupermarket;
+  } catch (error) {
+    console.error('Error creating supermarket:', error);
+    return null;
+  }
+}
+
+export async function updateSupermarket({
+  id,
+  name,
+  address,
+}: Pick<Supermarket, 'id' | 'name' | 'address'>) {
+  try {
+    const updatedSupermarket = await prisma.supermarket.update({
+      where: { id },
+      data: {
+        name,
+        address,
+      },
+    });
+
+    return updatedSupermarket;
+  } catch (error) {
+    console.error('Error updating supermarket:', error);
+    return null;
   }
 }

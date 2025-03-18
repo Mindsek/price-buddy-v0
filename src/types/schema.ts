@@ -33,48 +33,55 @@
 // }
 
 // model User {
-//   id            String       @id @default(uuid()) @map("_id")
+//   id            String    @id @default(uuid()) @map("_id")
 //   name          String?
-//   email         String?      @unique
+//   email         String?   @unique
 //   emailVerified DateTime?
 //   image         String?
-//   createdAt     DateTime     @default(now())
-//   updatedAt     DateTime     @updatedAt
+//   createdAt     DateTime  @default(now())
+//   updatedAt     DateTime  @updatedAt
 //   accounts      Account[]
 //   sessions      Session[]
 //   supermarkets  Supermarket[] // Supermarchés propres à l'utilisateur
 //   products      Product[]     // Produits propres à l'utilisateur
 // }
 
+// model VerificationToken {
+//   id         String   @id @default(uuid()) @map("_id")
+//   identifier String
+//   token      String   @unique
+//   expires    DateTime
+//   @@unique([identifier, token])
+// }
+
 // model Supermarket {
 //   id        String    @id @default(uuid()) @map("_id")
-//   name      String
+//   name      String    @unique
 //   address   String?
+//   prices    Price[]
 //   userId    String
 //   user      User      @relation(fields: [userId], references: [id])
-//   prices    Price[]   // Prix liés à ce supermarché
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime  @updatedAt
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
 // }
 
 // model Product {
 //   id        String    @id @default(uuid()) @map("_id")
 //   name      String
 //   category  String
+//   prices    Price[]
 //   userId    String
 //   user      User      @relation(fields: [userId], references: [id])
-//   prices    Price[]   // Prix liés à ce produit
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime  @updatedAt
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
 // }
 
 // model Price {
-//   id            String      @id @default(uuid()) @map("_id")
-//   price         Float
-//   date          DateTime    @default(now())
-//   productId     String
-//   product       Product     @relation(fields: [productId], references: [id])
+//   id           String      @id @default(uuid()) @map("_id")
+//   price        Float
+//   product      Product     @relation(fields: [productId], references: [id])
+//   supermarket  Supermarket @relation(fields: [supermarketId], references: [id])
+//   productId    String
 //   supermarketId String
-//   supermarket   Supermarket @relation(fields: [supermarketId], references: [id])
-//   createdAt     DateTime    @default(now())
+//   createdAt    DateTime    @default(now())
 // }

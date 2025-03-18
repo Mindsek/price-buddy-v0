@@ -3,7 +3,12 @@ export type Price = {
   price: number;
   productId: string;
   supermarketId: string;
-  createdAt: string;
+  createdAt: Date;
+  product: {
+    id: string;
+    name: string;
+    category: string;
+  };
 };
 
 export type Product = {
@@ -12,8 +17,8 @@ export type Product = {
   category: string;
   userId: string;
   prices: Price[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type Supermarket = {
@@ -22,6 +27,6 @@ export type Supermarket = {
   address: string | null;
   userId: string;
   prices: Price[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 };

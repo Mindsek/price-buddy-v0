@@ -7,8 +7,8 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 
+import { auth } from '@/auth';
 import { AppSidebar } from '@/components/layout/sidebar/app-sidebar';
-import { auth } from '@/lib/auth';
 
 export default async function SidebarWrapper({
   children,

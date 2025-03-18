@@ -24,17 +24,13 @@ import {
 import { SupermarketDetail } from './supermarket-detail';
 
 import { useMounted } from '@/hooks/use-mounted';
-import { Product, Supermarket } from '@/types';
+import { Supermarket } from '@/types';
 
 type SupermarketListProps = {
   supermarkets: Supermarket[];
-  products: Product[];
 };
 
-export const SupermarketList = ({
-  supermarkets,
-  products,
-}: SupermarketListProps) => {
+export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
   const isMounted = useMounted();
   if (!isMounted) {
     return (
@@ -73,9 +69,6 @@ export const SupermarketList = ({
       toast.error('Erreur lors de la suppression du supermarché');
     }
   };
-
-  const getProductName = (productId: string) =>
-    products.find((p) => p.id === productId)?.name || 'Inconnu';
 
   return (
     <div className='rounded-md border'>
@@ -140,7 +133,6 @@ export const SupermarketList = ({
                         <DropdownMenuItem asChild>
                           <SupermarketDetail
                             supermarket={supermarket}
-                            getProductName={getProductName}
                           />
                         </DropdownMenuItem>
                         <DropdownMenuItem

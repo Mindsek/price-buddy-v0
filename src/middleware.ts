@@ -1,33 +1,15 @@
-import { NextRequest } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
-import {
-  LOGIN,
-  PROTECTED_SUB_ROUTES,
-  PUBLIC_ROUTES,
-  ROOT,
-} from '@/constants/routes';
-import { auth } from '@/lib/auth';
-
-export async function middleware(request: NextRequest) {
-  const { nextUrl } = request;
-  const session = await auth();
-  console.log('session', session);
-  const isAuthenticated = !!session?.user;
-  console.log('isAuthenticated', isAuthenticated);
-
-  const isPublicRoute =
-    (PUBLIC_ROUTES.find((route) => nextUrl.pathname.startsWith(route)) ||
-      nextUrl.pathname === ROOT) &&
-    !PROTECTED_SUB_ROUTES.find((route) => nextUrl.pathname.includes(route));
-
-  if (isAuthenticated && nextUrl.pathname === LOGIN) {
-    return Response.redirect(new URL('/dashboard', nextUrl));
+export function middleware(request: NextRequest) {
+  // Rediriger / vers /dashboard
+  if (request.nextUrl.pathname === '/') {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
-  if (!isAuthenticated && !isPublicRoute)
-    return Response.redirect(new URL(LOGIN, nextUrl));
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };

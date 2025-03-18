@@ -10,14 +10,12 @@ import { Input } from '@/components/ui/input';
 import { AddSupermarketDialog } from './form/add-supermarket-dialog';
 import { SupermarketList } from './supermarket-list';
 
-import { Product, Supermarket } from '@/types';
+import { Supermarket } from '@/types';
 
 export const SupermarketsPage = ({
   supermarkets,
-  products,
 }: {
   supermarkets: Supermarket[];
-  products: Product[];
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -59,7 +57,6 @@ export const SupermarketsPage = ({
 
             <SupermarketList
               supermarkets={filteredSupermarkets}
-              products={products}
             />
           </div>
         </CardContent>

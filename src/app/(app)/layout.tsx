@@ -1,4 +1,5 @@
 import { Session } from 'next-auth';
+import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 
 import {
@@ -7,13 +8,15 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 
+import { auth } from '@/auth';
 import { AppSidebar } from '@/components/layout/sidebar/app-sidebar';
-import { auth } from '@/lib/auth';
+import { LOGIN } from '@/constants/routes';
 
 export default async function AppLayout({ children }: { children: ReactNode }) {
   const session = await auth();
-  if (!session) {
-    return null;
+
+  if (!session?.user) {
+    redirect(LOGIN);
   }
 
   return (
