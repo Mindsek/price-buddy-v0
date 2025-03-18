@@ -1,5 +1,7 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+
 import { prisma } from '@/lib/prisma';
 import { Price, Product } from '@/types';
 
@@ -109,6 +111,7 @@ export async function createProduct({
       },
     });
 
+    revalidatePath('/products');
     return newProduct;
   } catch (error) {
     console.error('Error creating product:', error);
@@ -127,6 +130,7 @@ export async function updateProduct({
       data: { name, category },
     });
 
+    revalidatePath('/products');
     return updatedProduct;
   } catch (error) {
     console.error('Error updating product:', error);
@@ -140,6 +144,7 @@ export async function deleteProduct(id: string) {
       where: { id },
     });
 
+    revalidatePath('/products');
     return true;
   } catch (error) {
     console.error('Error deleting product:', error);
@@ -161,6 +166,7 @@ export async function addPriceToProduct({
       },
     });
 
+    revalidatePath('/products');
     return newPrice;
   } catch (error) {
     console.error('Error adding price to product:', error);
