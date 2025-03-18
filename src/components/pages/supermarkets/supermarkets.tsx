@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Product, Supermarket } from "@/types";
 import { Plus, Search } from "lucide-react";
 import { useState } from "react";
-import { AddSupermarketDialog } from "./add-supermarket-dialog";
+import { AddSupermarketDialog } from "./form/add-supermarket-dialog";
 import { SupermarketList } from "./supermarket-list";
 
 export const SupermarketsPage = ({

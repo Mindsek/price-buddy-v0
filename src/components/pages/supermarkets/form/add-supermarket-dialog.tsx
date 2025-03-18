@@ -19,58 +19,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useSession } from "next-auth/react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
-
-const FormSchema = z.object({
-  name: z.string().min(2, {
-    message: "Nom du supermarché doit contenir au moins 2 caractères.",
-  }),
-  address: z.string().min(2, {
-    message: "Adresse doit contenir au moins 2 caractères.",
-  }),
-});
+import { useAddSupermarketDialog } from "./add-supermarket-dialog.logic";
 
 type AddSupermarketDialogProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-export function AddSupermarketDialog({
+export const AddSupermarketDialog = ({
   isOpen,
   onClose,
-}: AddSupermarketDialogProps) {
-  const { data: session } = useSession();
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      name: "",
-      address: "",
-    },
-  });
-
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    try {
-      console.log(data, session);
-      form.reset();
-      onClose();
-      toast.success(`Supermarché ${data.name} ajouté avec succès`);
-    } catch (error) {
-      console.error("Erreur lors de l'ajout du supermarché:", error);
-      toast.error(`Erreur lors de l'ajout du supermarché ${data.name}`);
-    }
-  }
-
-  const handleClose = () => {
-    form.reset();
-    onClose();
-  };
+}: AddSupermarketDialogProps) => {
+  const logic = useAddSupermarketDialog({ isOpen, onClose });
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
+    <Dialog open={isOpen} onOpenChange={logic.handleClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Ajouter un supermarché</DialogTitle>
@@ -78,13 +41,13 @@ export function AddSupermarketDialog({
             Entrez les informations du nouveau supermarché.
           </DialogDescription>
         </DialogHeader>
-        <Form {...form}>
+        <Form {...logic.form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={logic.form.handleSubmit(logic.onSubmit)}
             className="grid gap-4 py-4"
           >
             <FormField
-              control={form.control}
+              control={logic.form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
@@ -97,7 +60,7 @@ export function AddSupermarketDialog({
               )}
             />
             <FormField
-              control={form.control}
+              control={logic.form.control}
               name="address"
               render={({ field }) => (
                 <FormItem>
@@ -118,16 +81,18 @@ export function AddSupermarketDialog({
                 className="cursor-pointer"
                 type="button"
                 variant="outline"
-                onClick={handleClose}
+                onClick={logic.handleClose}
               >
                 Annuler
               </Button>
               <Button
                 className="cursor-pointer"
                 type="submit"
-                disabled={form.formState.isSubmitting}
+                disabled={logic.form.formState.isSubmitting}
               >
-                {form.formState.isSubmitting ? "Ajout en cours..." : "Ajouter"}
+                {logic.form.formState.isSubmitting
+                  ? "Ajout en cours..."
+                  : "Ajouter"}
               </Button>
             </DialogFooter>
           </form>
@@ -135,4 +100,4 @@ export function AddSupermarketDialog({
       </DialogContent>
     </Dialog>
   );
-}
+};
