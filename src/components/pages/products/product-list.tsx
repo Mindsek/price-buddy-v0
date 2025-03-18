@@ -14,10 +14,10 @@ import { PlusCircle } from "lucide-react";
 
 type ProductListProps = {
   products: Product[];
-  onAddPrice: (product: Product) => void;
+  selectProduct: (product: Product) => void;
 };
 
-export function ProductList({ products, onAddPrice }: ProductListProps) {
+export const ProductList = ({ products, selectProduct }: ProductListProps) => {
   const getLowestPrice = (prices: Product["prices"]) => {
     if (prices.length === 0) return null;
     return Math.min(...prices.map((p) => p.price));
@@ -66,7 +66,7 @@ export function ProductList({ products, onAddPrice }: ProductListProps) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => onAddPrice(product)}
+                  onClick={() => selectProduct(product)}
                 >
                   <PlusCircle className="h-4 w-4" />
                 </Button>
@@ -77,4 +77,4 @@ export function ProductList({ products, onAddPrice }: ProductListProps) {
       </Table>
     </div>
   );
-}
+};

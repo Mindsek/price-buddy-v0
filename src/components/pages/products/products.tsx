@@ -58,7 +58,7 @@ export const ProductsPage = ({
 
             <ProductList
               products={filteredProducts}
-              onAddPrice={(product) => setSelectedProduct(product)}
+              selectProduct={(product) => setSelectedProduct(product)}
             />
           </div>
         </CardContent>
