@@ -8,13 +8,13 @@ import { z } from 'zod';
 
 import { FormSchema, FormSchemaType } from './add-supermarket-dialog.schema';
 
+import { createSupermarket } from '@/app/actions/supermarkets';
+
 type AddSupermarketDialogProps = {
-  isOpen: boolean;
   onClose: () => void;
 };
 
 export const useAddSupermarketDialog = ({
-  isOpen,
   onClose,
 }: AddSupermarketDialogProps) => {
   const { data: session } = useSession();
@@ -28,10 +28,18 @@ export const useAddSupermarketDialog = ({
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      console.log(data, session);
+      if (!session?.user) {
+        throw new Error('User not found');
+      }
+
+      await createSupermarket({
+        name: data.name,
+        address: data.address,
+        userId: session.user.id as string,
+      });
+      toast.success(`Supermarché ${data.name} ajouté avec succès`);
       form.reset();
       onClose();
-      toast.success(`Supermarché ${data.name} ajouté avec succès`);
     } catch (error) {
       console.error("Erreur lors de l'ajout du supermarché:", error);
       toast.error(`Erreur lors de l'ajout du supermarché ${data.name}`);

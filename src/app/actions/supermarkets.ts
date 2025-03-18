@@ -1,5 +1,7 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+
 import { prisma } from '@/lib/prisma';
 import { Supermarket } from '@/types';
 
@@ -67,6 +69,7 @@ export async function createSupermarket({
       },
     });
 
+    revalidatePath('/supermarkets');
     return newSupermarket;
   } catch (error) {
     console.error('Error creating supermarket:', error);
@@ -88,9 +91,24 @@ export async function updateSupermarket({
       },
     });
 
+    revalidatePath('/supermarkets');
     return updatedSupermarket;
   } catch (error) {
     console.error('Error updating supermarket:', error);
     return null;
+  }
+}
+
+export async function deleteSupermarket(id: string) {
+  try {
+    await prisma.supermarket.delete({
+      where: { id },
+    });
+
+    revalidatePath('/supermarkets');
+    return true;
+  } catch (error) {
+    console.error('Error deleting supermarket:', error);
+    return false;
   }
 }

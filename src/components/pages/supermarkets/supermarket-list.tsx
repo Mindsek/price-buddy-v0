@@ -1,6 +1,7 @@
 'use client';
 
 import { MapPin, MoreHorizontal, Store } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 
 import { Badge } from '@/components/ui/badge';
@@ -23,6 +24,7 @@ import {
 
 import { SupermarketDetail } from './supermarket-detail';
 
+import { deleteSupermarket } from '@/app/actions/supermarkets';
 import { useMounted } from '@/hooks/use-mounted';
 import { Supermarket } from '@/types';
 
@@ -32,7 +34,10 @@ type SupermarketListProps = {
 
 export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
   const isMounted = useMounted();
-  if (!isMounted) {
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
+
+  if (!isMounted || !userId) {
     return (
       <div className='rounded-md border'>
         <Table>
@@ -63,12 +68,15 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
 
   const handleDeleteSupermarket = async (supermarket: Supermarket) => {
     try {
+      await deleteSupermarket(supermarket.id);
       toast.success(`Supermarché ${supermarket.name} supprimé avec succès`);
     } catch (error) {
       console.error('Erreur lors de la suppression du supermarché:', error);
       toast.error('Erreur lors de la suppression du supermarché');
     }
   };
+
+  console.log('supermarkets', supermarkets[0]);
 
   return (
     <div className='rounded-md border'>
@@ -91,9 +99,10 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
             </TableRow>
           ) : (
             supermarkets.map((supermarket) => {
-              const bestOffer = Math.min(
-                ...supermarket.prices.map((p) => p.price)
-              );
+              const bestOffer =
+                supermarket.prices.length > 0
+                  ? Math.min(...supermarket.prices.map((p) => p.price))
+                  : null;
 
               return (
                 <TableRow key={supermarket.id}>
@@ -131,9 +140,7 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align='end'>
                         <DropdownMenuItem asChild>
-                          <SupermarketDetail
-                            supermarket={supermarket}
-                          />
+                          <SupermarketDetail supermarket={supermarket} />
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className='text-red-600'
