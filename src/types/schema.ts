@@ -1,5 +1,3 @@
-// TODO: add schema for the database
-
 // generator client {
 //   provider = "prisma-client-js"
 // }
