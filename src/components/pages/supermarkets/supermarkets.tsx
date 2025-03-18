@@ -3,18 +3,19 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Supermarket } from "@/types";
+import { Product, Supermarket } from "@/types";
 import { Plus, Search } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 import { AddSupermarketDialog } from "./add-supermarket-dialog";
 import { SupermarketList } from "./supermarket-list";
 
-export default function SupermarketsPage({
+export const SupermarketsPage = ({
   supermarkets,
+  products,
 }: {
   supermarkets: Supermarket[];
-}) {
+  products: Product[];
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
@@ -24,15 +25,6 @@ export default function SupermarketsPage({
       supermarket.address?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
-
-  const handleDeleteSupermarket = async (supermarket: Supermarket) => {
-    try {
-      toast.success(`Supermarché ${supermarket.name} supprimé avec succès`);
-    } catch (error) {
-      console.error("Erreur lors de la suppression du supermarché:", error);
-      toast.error("Erreur lors de la suppression du supermarché");
-    }
-  };
 
   return (
     <div className="mx-auto p-10 w-full">
@@ -66,7 +58,7 @@ export default function SupermarketsPage({
 
             <SupermarketList
               supermarkets={filteredSupermarkets}
-              onDelete={handleDeleteSupermarket}
+              products={products}
             />
           </div>
         </CardContent>
@@ -78,4 +70,4 @@ export default function SupermarketsPage({
       />
     </div>
   );
-}
+};

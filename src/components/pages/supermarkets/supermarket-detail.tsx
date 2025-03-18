@@ -11,11 +11,15 @@ import {
 } from "@/components/ui/sheet";
 import { Supermarket } from "@/types";
 
+interface SupermarketDetailProps {
+  supermarket: Supermarket;
+  getProductName: (productId: string) => string;
+}
+
 export function SupermarketDetail({
   supermarket,
-}: {
-  supermarket: Supermarket;
-}) {
+  getProductName,
+}: SupermarketDetailProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -26,12 +30,16 @@ export function SupermarketDetail({
           <SheetTitle>{supermarket.name}</SheetTitle>
           <SheetDescription>{supermarket.address}</SheetDescription>
         </SheetHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-4 p-4">
           <div className="flex flex-col gap-2">
-            <Label>Prix</Label>
-            <div className="flex flex-wrap gap-1">
+            <Label>Prix par produit</Label>
+            <div className="flex flex-col gap-2">
               {supermarket.prices.map((price) => (
-                <Badge key={price.id}>{price.price}</Badge>
+                <div key={price.id}>
+                  <Badge variant="outline">
+                    {getProductName(price.productId)}: {price.price}€
+                  </Badge>
+                </div>
               ))}
             </div>
           </div>

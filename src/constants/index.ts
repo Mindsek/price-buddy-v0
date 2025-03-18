@@ -8,9 +8,9 @@ export const supermarketsData = [
       {
         id: "price1",
         price: 1.99,
-        userId: "user1",
         productId: "prod1",
         supermarketId: "super1",
+        createdAt: "2025-03-18T10:00:00Z",
       },
     ],
     createdAt: "2025-03-18T10:00:00Z",
@@ -25,7 +25,6 @@ export const supermarketsData = [
       {
         id: "price2",
         price: 2.09,
-        userId: "user1",
         productId: "prod1",
         supermarketId: "super2",
         createdAt: "2025-03-18T11:00:00Z",
@@ -47,12 +46,14 @@ export const productsData = [
         id: "price1",
         price: 1.99,
         supermarketId: "super1",
+        productId: "prod1",
         createdAt: "2025-03-18T10:00:00Z",
       },
       {
         id: "price2",
         price: 2.09,
         supermarketId: "super2",
+        productId: "prod1",
         createdAt: "2025-03-18T11:00:00Z",
       },
     ],
