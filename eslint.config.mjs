@@ -2,7 +2,6 @@ import js from "@eslint/js";
 import nextPlugin from "@next/eslint-plugin-next";
 import prettier from "eslint-config-prettier";
 import hooksPlugin from "eslint-plugin-react-hooks";
-import tailwind from "eslint-plugin-tailwindcss";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
@@ -46,8 +45,6 @@ export default tseslint.config(
       ...hooksPlugin.configs.recommended.rules,
     },
   },
-
-  ...tailwind.configs["flat/recommended"],
 
   {
     rules: {

@@ -2,6 +2,7 @@
 
 import { ChevronRight, type LucideIcon } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import {
   Collapsible,
@@ -19,8 +20,6 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 
-import { useMenuActive } from '@/hooks/use-menu-active';
-
 export function NavMain({
   items,
 }: {
@@ -35,11 +34,14 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const pathname = usePathname(); 
+  const activeStates = items.map((item) => pathname.includes(item.url)); 
+
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {items.map((item) => {
-          const isActive = useMenuActive(item.url);
+        {items.map((item, index) => {
+          const isActive = activeStates[index];
           return (
             <Collapsible key={item.title} asChild defaultOpen={isActive}>
               <SidebarMenuItem>

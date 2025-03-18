@@ -1,4 +1,3 @@
-import Image from 'next/image';
 
 import { getProducts } from '@/app/actions/products';
 import { getSupermarkets } from '@/app/actions/supermarkets';
