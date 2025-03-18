@@ -4,10 +4,15 @@ export type Price = {
   productId: string;
   supermarketId: string;
   createdAt: Date;
-  product: {
+  product?: {
     id: string;
     name: string;
     category: string;
+  };
+  supermarket?: {
+    id: string;
+    name: string;
+    address: string | null;
   };
 };
 

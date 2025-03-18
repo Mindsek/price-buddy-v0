@@ -35,7 +35,7 @@ type AddProductDialogProps = {
 };
 
 export function AddProductDialog({ isOpen, onClose }: AddProductDialogProps) {
-  const logic = useAddProductDialog({ isOpen, onClose });
+  const logic = useAddProductDialog({ onClose });
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

@@ -31,7 +31,7 @@ export const AddSupermarketDialog = ({
   isOpen,
   onClose,
 }: AddSupermarketDialogProps) => {
-  const logic = useAddSupermarketDialog({ isOpen, onClose });
+  const logic = useAddSupermarketDialog({ onClose });
 
   return (
     <Dialog open={isOpen} onOpenChange={logic.handleClose}>

@@ -1,26 +1,25 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { FormSchema, FormSchemaType } from './add-price-dialog.schema';
 
-import { Product, Supermarket } from '@/types';
+import { addPriceToProduct } from '@/app/actions/products';
+import { Product } from '@/types';
 
 type AddPriceDialogProps = {
-  isOpen: boolean;
   onClose: () => void;
   product: Product;
-  supermarkets: Supermarket[];
 };
 
 export const useAddPriceDialog = ({
-  isOpen,
   onClose,
   product,
-  supermarkets,
 }: AddPriceDialogProps) => {
+  const { data: session } = useSession();
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -31,7 +30,15 @@ export const useAddPriceDialog = ({
 
   const handleSubmit = async (data: FormSchemaType) => {
     try {
-      console.log(data);
+      if (!session?.user) {
+        throw new Error('User not found');
+      }
+
+      await addPriceToProduct({
+        productId: product.id,
+        price: data.price,
+        supermarketId: data.supermarketId,
+      });
       toast.success('Prix ajouté avec succès');
       form.reset();
       onClose();

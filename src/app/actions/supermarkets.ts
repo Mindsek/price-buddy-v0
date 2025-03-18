@@ -5,6 +5,39 @@ import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { Supermarket } from '@/types';
 
+/**
+ 
+ Find many supermarkets return something like this:
+
+ {
+  "id": "1",
+  "name": "Carrefour",
+  "address": "123 Rue de la Paix",
+  "prices": [
+    {
+      "id": "1",
+      "price": 10,
+      "productId": "1",
+      "supermarketId": "1"
+    }
+  ]
+ 
+  so we have a carrefour at 123 Rue de la Paix with a price of 10 for the product with id 1 but we don't know the product name and we want to display the product name in the supermarket list
+
+  so for this we need to fetch the product name from the product table and join it to the supermarket table
+
+  we can do this by using the following query:
+
+  const supermarkets = await prisma.supermarket.findMany({
+    include: {
+      prices: { 
+        include: {
+          product: true, // means we want to fetch the product name, category, id
+        },
+      },
+    },
+  });
+ */
 export async function getSupermarkets(): Promise<Supermarket[]> {
   try {
     const supermarkets = await prisma.supermarket.findMany({
