@@ -1,8 +1,13 @@
 import { doLogout } from "@/app/actions";
-import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
 
 const LogoutButton = () => {
-  return <Button onClick={doLogout}>Logout</Button>;
+  return (
+    <button className="flex items-center gap-2" onClick={doLogout}>
+      <LogOut />
+      <span>Se déconnecter</span>
+    </button>
+  );
 };
 
 export default LogoutButton;

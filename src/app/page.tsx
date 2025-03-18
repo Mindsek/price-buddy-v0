@@ -1,9 +1,5 @@
-import { LoginButton } from "@/components/auth/login-button";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <LoginButton />
-    </div>
-  );
+  redirect("/dashboard");
 }
