@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 
-import { AddSupermarketDialog } from './form/add-supermarket-dialog';
+import { AddSupermarketDialog } from './form/add/add-supermarket-dialog';
 import { SupermarketList } from './supermarket-list';
 
 import { Supermarket } from '@/types';
@@ -55,9 +55,7 @@ export const SupermarketsPage = ({
               />
             </div>
 
-            <SupermarketList
-              supermarkets={filteredSupermarkets}
-            />
+            <SupermarketList supermarkets={filteredSupermarkets} />
           </div>
         </CardContent>
       </Card>
