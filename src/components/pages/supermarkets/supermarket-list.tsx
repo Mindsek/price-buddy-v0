@@ -142,6 +142,7 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
                         <DropdownMenuItem asChild>
                           <SupermarketDetail supermarket={supermarket} />
                         </DropdownMenuItem>
+                        <DropdownMenuItem>Modifier</DropdownMenuItem>
                         <DropdownMenuItem
                           className='text-red-600'
                           onClick={() => handleDeleteSupermarket(supermarket)}
