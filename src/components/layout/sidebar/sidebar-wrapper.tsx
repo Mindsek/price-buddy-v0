@@ -1,12 +1,14 @@
-import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
+import { Session } from 'next-auth';
+import { ReactNode } from 'react';
+
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { auth } from "@/lib/auth";
-import { Session } from "next-auth";
-import { ReactNode } from "react";
+} from '@/components/ui/sidebar';
+
+import { AppSidebar } from '@/components/layout/sidebar/app-sidebar';
+import { auth } from '@/lib/auth';
 
 export default async function SidebarWrapper({
   children,
@@ -19,7 +21,7 @@ export default async function SidebarWrapper({
     <SidebarProvider>
       <AppSidebar session={session as Session} />
       <SidebarInset>
-        <div className="flex-1 overflow-hidden">
+        <div className='flex-1 overflow-hidden'>
           <SidebarTrigger />
           {children}
         </div>

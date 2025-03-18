@@ -1,10 +1,12 @@
-"use client";
+'use client';
 
-import { Product, Supermarket } from "@/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { FormSchema, FormSchemaType } from "./add-price-dialog.schema";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+
+import { FormSchema, FormSchemaType } from './add-price-dialog.schema';
+
+import { Product, Supermarket } from '@/types';
 
 type AddPriceDialogProps = {
   isOpen: boolean;
@@ -22,7 +24,7 @@ export const useAddPriceDialog = ({
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      supermarketId: "",
+      supermarketId: '',
       price: 0,
     },
   });
@@ -30,7 +32,7 @@ export const useAddPriceDialog = ({
   const handleSubmit = async (data: FormSchemaType) => {
     try {
       console.log(data);
-      toast.success("Prix ajouté avec succès");
+      toast.success('Prix ajouté avec succès');
       form.reset();
       onClose();
     } catch (error) {

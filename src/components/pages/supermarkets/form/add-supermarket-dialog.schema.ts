@@ -1,11 +1,11 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const FormSchema = z.object({
   name: z.string().min(2, {
-    message: "Nom du supermarché doit contenir au moins 2 caractères.",
+    message: 'Nom du supermarché doit contenir au moins 2 caractères.',
   }),
   address: z.string().min(2, {
-    message: "Adresse doit contenir au moins 2 caractères.",
+    message: 'Adresse doit contenir au moins 2 caractères.',
   }),
 });
 

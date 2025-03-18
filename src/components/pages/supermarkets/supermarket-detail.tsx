@@ -1,6 +1,6 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 import {
   Sheet,
   SheetContent,
@@ -8,8 +8,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { Supermarket } from "@/types";
+} from '@/components/ui/sheet';
+
+import { Supermarket } from '@/types';
 
 interface SupermarketDetailProps {
   supermarket: Supermarket;
@@ -23,20 +24,20 @@ export function SupermarketDetail({
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Voir les détails</Button>
+        <Button variant='outline'>Voir les détails</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>{supermarket.name}</SheetTitle>
           <SheetDescription>{supermarket.address}</SheetDescription>
         </SheetHeader>
-        <div className="grid gap-4 p-4">
-          <div className="flex flex-col gap-2">
+        <div className='grid gap-4 p-4'>
+          <div className='flex flex-col gap-2'>
             <Label>Prix par produit</Label>
-            <div className="flex flex-col gap-2">
+            <div className='flex flex-col gap-2'>
               {supermarket.prices.map((price) => (
                 <div key={price.id}>
-                  <Badge variant="outline">
+                  <Badge variant='outline'>
                     {getProductName(price.productId)}: {price.price}€
                   </Badge>
                 </div>

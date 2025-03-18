@@ -1,8 +1,8 @@
-import { getProducts } from "@/app/actions/products";
-import { getSupermarkets } from "@/app/actions/supermarkets";
-import { ProductsPage } from "@/components/pages/products/products";
-import { auth } from "@/lib/auth";
-import { Product, Supermarket } from "@/types";
+import Image from 'next/image';
+
+import { getProducts } from '@/app/actions/products';
+import { getSupermarkets } from '@/app/actions/supermarkets';
+import { ProductsPage } from '@/components/pages/products/products';
 
 export default async function Products() {
   const supermarkets = await getSupermarkets();

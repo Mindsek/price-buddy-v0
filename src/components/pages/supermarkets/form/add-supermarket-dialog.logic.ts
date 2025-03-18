@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useSession } from "next-auth/react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { z } from "zod";
-import { FormSchema, FormSchemaType } from "./add-supermarket-dialog.schema";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useSession } from 'next-auth/react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
+
+import { FormSchema, FormSchemaType } from './add-supermarket-dialog.schema';
 
 type AddSupermarketDialogProps = {
   isOpen: boolean;
@@ -20,8 +21,8 @@ export const useAddSupermarketDialog = ({
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      name: "",
-      address: "",
+      name: '',
+      address: '',
     },
   });
 

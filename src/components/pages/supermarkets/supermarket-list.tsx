@@ -1,14 +1,17 @@
-"use client";
+'use client';
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { MapPin, MoreHorizontal, Store } from 'lucide-react';
+import { toast } from 'sonner';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Skeleton } from "@/components/ui/skeleton";
+} from '@/components/ui/dropdown-menu';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
@@ -16,12 +19,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useMounted } from "@/hooks/use-mounted";
-import { Product, Supermarket } from "@/types";
-import { MapPin, MoreHorizontal, Store } from "lucide-react";
-import { toast } from "sonner";
-import { SupermarketDetail } from "./supermarket-detail";
+} from '@/components/ui/table';
+
+import { SupermarketDetail } from './supermarket-detail';
+
+import { useMounted } from '@/hooks/use-mounted';
+import { Product, Supermarket } from '@/types';
 
 type SupermarketListProps = {
   supermarkets: Supermarket[];
@@ -35,7 +38,7 @@ export const SupermarketList = ({
   const isMounted = useMounted();
   if (!isMounted) {
     return (
-      <div className="rounded-md border">
+      <div className='rounded-md border'>
         <Table>
           <TableHeader>
             <TableRow>
@@ -43,15 +46,15 @@ export const SupermarketList = ({
               <TableHead>Adresse</TableHead>
               <TableHead>Produits suivis</TableHead>
               <TableHead>Meilleures offres</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead className='text-right'>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {Array.from({ length: 10 }).map((_, index) => (
               <TableRow key={index}>
                 {Array.from({ length: 5 }).map((_, index) => (
-                  <TableCell key={index} className="text-center">
-                    <Skeleton className="h-10 w-full" />
+                  <TableCell key={index} className='text-center'>
+                    <Skeleton className='h-10 w-full' />
                   </TableCell>
                 ))}
               </TableRow>
@@ -66,16 +69,16 @@ export const SupermarketList = ({
     try {
       toast.success(`Supermarché ${supermarket.name} supprimé avec succès`);
     } catch (error) {
-      console.error("Erreur lors de la suppression du supermarché:", error);
-      toast.error("Erreur lors de la suppression du supermarché");
+      console.error('Erreur lors de la suppression du supermarché:', error);
+      toast.error('Erreur lors de la suppression du supermarché');
     }
   };
 
   const getProductName = (productId: string) =>
-    products.find((p) => p.id === productId)?.name || "Inconnu";
+    products.find((p) => p.id === productId)?.name || 'Inconnu';
 
   return (
-    <div className="rounded-md border">
+    <div className='rounded-md border'>
       <Table>
         <TableHeader>
           <TableRow>
@@ -83,13 +86,13 @@ export const SupermarketList = ({
             <TableHead>Adresse</TableHead>
             <TableHead>Produits suivis</TableHead>
             <TableHead>Meilleures offres</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+            <TableHead className='text-right'>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {supermarkets.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="text-center">
+              <TableCell colSpan={5} className='text-center'>
                 Aucun supermarché trouvé
               </TableCell>
             </TableRow>
@@ -101,39 +104,39 @@ export const SupermarketList = ({
 
               return (
                 <TableRow key={supermarket.id}>
-                  <TableCell className="font-medium">
-                    <div className="flex items-center gap-2">
-                      <Store className="h-4 w-4 text-muted-foreground" />
+                  <TableCell className='font-medium'>
+                    <div className='flex items-center gap-2'>
+                      <Store className='h-4 w-4 text-muted-foreground' />
                       {supermarket.name}
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <div className='flex items-center gap-2'>
+                      <MapPin className='h-4 w-4 text-muted-foreground' />
                       {supermarket.address}
                     </div>
                   </TableCell>
                   <TableCell>{supermarket.prices.length}</TableCell>
                   <TableCell>
-                    <div className="flex flex-wrap gap-1">
+                    <div className='flex flex-wrap gap-1'>
                       {bestOffer ? (
-                        <Badge variant="outline">{bestOffer}€</Badge>
+                        <Badge variant='outline'>{bestOffer}€</Badge>
                       ) : (
-                        <span className="text-muted-foreground text-sm">
+                        <span className='text-muted-foreground text-sm'>
                           Aucune offre
                         </span>
                       )}
                     </div>
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className='text-right'>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm">
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Menu</span>
+                        <Button variant='ghost' size='sm'>
+                          <MoreHorizontal className='h-4 w-4' />
+                          <span className='sr-only'>Menu</span>
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
+                      <DropdownMenuContent align='end'>
                         <DropdownMenuItem asChild>
                           <SupermarketDetail
                             supermarket={supermarket}
@@ -141,7 +144,7 @@ export const SupermarketList = ({
                           />
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                          className="text-red-600"
+                          className='text-red-600'
                           onClick={() => handleDeleteSupermarket(supermarket)}
                         >
                           Supprimer

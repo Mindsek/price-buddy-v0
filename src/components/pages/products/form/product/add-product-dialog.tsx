@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -16,17 +16,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useAddProductDialog } from "./add-product-dialog.logic";
-import { categories } from "./add-product-dialog.schema";
+} from '@/components/ui/select';
+
+import { useAddProductDialog } from './add-product-dialog.logic';
+import { categories } from './add-product-dialog.schema';
+
 type AddProductDialogProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -47,16 +49,16 @@ export function AddProductDialog({ isOpen, onClose }: AddProductDialogProps) {
         <Form {...logic.form}>
           <form
             onSubmit={logic.form.handleSubmit(logic.onSubmit)}
-            className="grid gap-4 py-4"
+            className='grid gap-4 py-4'
           >
             <FormField
               control={logic.form.control}
-              name="name"
+              name='name'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Nom du produit</FormLabel>
                   <FormControl>
-                    <Input placeholder="ex: Lait demi-écrémé 1L" {...field} />
+                    <Input placeholder='ex: Lait demi-écrémé 1L' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -64,7 +66,7 @@ export function AddProductDialog({ isOpen, onClose }: AddProductDialogProps) {
             />
             <FormField
               control={logic.form.control}
-              name="category"
+              name='category'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Catégorie</FormLabel>
@@ -74,7 +76,7 @@ export function AddProductDialog({ isOpen, onClose }: AddProductDialogProps) {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Sélectionner une catégorie" />
+                        <SelectValue placeholder='Sélectionner une catégorie' />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -91,13 +93,13 @@ export function AddProductDialog({ isOpen, onClose }: AddProductDialogProps) {
             />
             <DialogFooter>
               <Button
-                type="button"
-                variant="outline"
+                type='button'
+                variant='outline'
                 onClick={logic.handleClose}
               >
                 Annuler
               </Button>
-              <Button type="submit">Ajouter</Button>
+              <Button type='submit'>Ajouter</Button>
             </DialogFooter>
           </form>
         </Form>

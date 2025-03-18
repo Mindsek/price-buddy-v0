@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth";
+import { auth } from '@/lib/auth';
 
 const DashboardPage = async () => {
   const session = await auth();
@@ -6,7 +6,7 @@ const DashboardPage = async () => {
   if (!session?.user) return null;
 
   return (
-    <div className="flex flex-col items-center min-h-screen justify-center gap-8"></div>
+    <div className='flex flex-col items-center min-h-screen justify-center gap-8'></div>
   );
 };
 

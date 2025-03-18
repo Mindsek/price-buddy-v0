@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -8,7 +8,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -16,17 +16,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Product, Supermarket } from "@/types";
-import { useAddPriceDialog } from "./add-price-dialog.logic";
+} from '@/components/ui/select';
+
+import { useAddPriceDialog } from './add-price-dialog.logic';
+
+import { Product, Supermarket } from '@/types';
 
 type AddPriceDialogProps = {
   isOpen: boolean;
@@ -50,11 +52,11 @@ export const AddPriceDialog = (props: AddPriceDialogProps) => {
         <Form {...logic.form}>
           <form
             onSubmit={logic.form.handleSubmit(logic.handleSubmit)}
-            className="grid gap-4 py-4"
+            className='grid gap-4 py-4'
           >
             <FormField
               control={logic.form.control}
-              name="supermarketId"
+              name='supermarketId'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Supermarché</FormLabel>
@@ -64,7 +66,7 @@ export const AddPriceDialog = (props: AddPriceDialogProps) => {
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Sélectionner un supermarché" />
+                        <SelectValue placeholder='Sélectionner un supermarché' />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -81,16 +83,16 @@ export const AddPriceDialog = (props: AddPriceDialogProps) => {
             />
             <FormField
               control={logic.form.control}
-              name="price"
+              name='price'
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Prix (€)</FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      placeholder="ex: 1.99"
+                      type='number'
+                      step='0.01'
+                      min='0'
+                      placeholder='ex: 1.99'
                       {...field}
                     />
                   </FormControl>
@@ -100,13 +102,13 @@ export const AddPriceDialog = (props: AddPriceDialogProps) => {
             />
             <DialogFooter>
               <Button
-                type="button"
-                variant="outline"
+                type='button'
+                variant='outline'
                 onClick={logic.handleClose}
               >
                 Annuler
               </Button>
-              <Button type="submit">Ajouter</Button>
+              <Button type='submit'>Ajouter</Button>
             </DialogFooter>
           </form>
         </Form>

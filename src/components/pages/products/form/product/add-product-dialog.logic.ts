@@ -1,13 +1,14 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+
 import {
-  categories,
   ProductSchema,
   ProductSchemaType,
-} from "./add-product-dialog.schema";
+  categories,
+} from './add-product-dialog.schema';
 
 type AddProductDialogProps = {
   isOpen: boolean;
@@ -21,7 +22,7 @@ export const useAddProductDialog = ({
   const form = useForm<ProductSchemaType>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
-      name: "",
+      name: '',
       category: categories[0],
     },
   });
