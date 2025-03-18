@@ -33,7 +33,7 @@ export const SupermarketList = ({
   products,
 }: SupermarketListProps) => {
   const isMounted = useMounted();
-  if (!isMounted)
+  if (!isMounted) {
     return (
       <div className="rounded-md border">
         <Table>
@@ -49,15 +49,18 @@ export const SupermarketList = ({
           <TableBody>
             {Array.from({ length: 10 }).map((_, index) => (
               <TableRow key={index}>
-                <TableCell colSpan={5} className="text-center">
-                  <Skeleton className="h-10 w-full" />
-                </TableCell>
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <TableCell key={index} className="text-center">
+                    <Skeleton className="h-10 w-full" />
+                  </TableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </div>
     );
+  }
 
   const handleDeleteSupermarket = async (supermarket: Supermarket) => {
     try {

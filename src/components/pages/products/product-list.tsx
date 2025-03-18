@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -9,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useMounted } from "@/hooks/use-mounted";
 import { Product } from "@/types";
 import { PlusCircle } from "lucide-react";
 
@@ -18,6 +20,37 @@ type ProductListProps = {
 };
 
 export const ProductList = ({ products, selectProduct }: ProductListProps) => {
+  const isMounted = useMounted();
+  if (!isMounted) {
+    return (
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Nom</TableHead>
+              <TableHead>Catégorie</TableHead>
+              <TableHead>Prix le plus bas</TableHead>
+              <TableHead>Prix le plus haut</TableHead>
+              <TableHead>Différence (%)</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: 10 }).map((_, index) => (
+              <TableRow key={index}>
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <TableCell key={index} className="text-center">
+                    <Skeleton className="h-10 w-full" />
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    );
+  }
+
   const getLowestPrice = (prices: Product["prices"]) => {
     if (prices.length === 0) return null;
     return Math.min(...prices.map((p) => p.price));
