@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { redirect } from "next/navigation";
 
-const HomePage = async () => {
+const DashboardPage = async () => {
   const session = await auth();
 
   if (!session?.user) redirect("/");
@@ -25,4 +25,4 @@ const HomePage = async () => {
   );
 };
 
-export default HomePage;
+export default DashboardPage;
