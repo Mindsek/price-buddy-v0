@@ -28,20 +28,18 @@ export const SupermarketsPage = ({
 
   return (
     <div className="mx-auto p-10 w-full">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-8">
-        <h1 className="text-2xl font-bold">Supermarchés</h1>
-        <Button
-          onClick={() => setIsAddDialogOpen(true)}
-          className="cursor-pointer"
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Ajouter un supermarché
-        </Button>
-      </div>
-
       <Card>
-        <CardHeader>
-          <CardTitle>Liste des supermarchés</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>
+            <h1 className="text-2xl font-bold">Liste des supermarchés</h1>
+          </CardTitle>
+          <Button
+            onClick={() => setIsAddDialogOpen(true)}
+            className="cursor-pointer"
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Ajouter un supermarché
+          </Button>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4">
