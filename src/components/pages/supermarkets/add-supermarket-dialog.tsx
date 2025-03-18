@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -42,6 +43,7 @@ export function AddSupermarketDialog({
   isOpen,
   onClose,
 }: AddSupermarketDialogProps) {
+  const { data: session } = useSession();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -52,7 +54,7 @@ export function AddSupermarketDialog({
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      console.log(data);
+      console.log(data, session);
       form.reset();
       onClose();
       toast.success(`Supermarché ${data.name} ajouté avec succès`);
@@ -62,8 +64,13 @@ export function AddSupermarketDialog({
     }
   }
 
+  const handleClose = () => {
+    form.reset();
+    onClose();
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Ajouter un supermarché</DialogTitle>
@@ -107,10 +114,19 @@ export function AddSupermarketDialog({
               )}
             />
             <DialogFooter className="mt-4">
-              <Button type="button" variant="outline" onClick={onClose}>
+              <Button
+                className="cursor-pointer"
+                type="button"
+                variant="outline"
+                onClick={handleClose}
+              >
                 Annuler
               </Button>
-              <Button type="submit" disabled={form.formState.isSubmitting}>
+              <Button
+                className="cursor-pointer"
+                type="submit"
+                disabled={form.formState.isSubmitting}
+              >
                 {form.formState.isSubmitting ? "Ajout en cours..." : "Ajouter"}
               </Button>
             </DialogFooter>
