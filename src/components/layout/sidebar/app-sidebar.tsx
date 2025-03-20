@@ -1,6 +1,6 @@
 'use client';
 
-import { ShoppingCartIcon, SquareTerminal, StoreIcon } from 'lucide-react';
+import { HomeIcon, ShoppingCartIcon, StoreIcon } from 'lucide-react';
 import { Session } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -26,7 +26,7 @@ const data = {
     {
       title: 'Accueil',
       url: '/dashboard',
-      icon: SquareTerminal,
+      icon: HomeIcon,
     },
     {
       title: 'Produits',

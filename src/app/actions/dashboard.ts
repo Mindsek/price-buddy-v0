@@ -23,11 +23,24 @@ export type DashboardData = {
   }>;
 };
 
-export async function getDashboardData(): Promise<DashboardData> {
+export async function getDashboardData(userId: string): Promise<DashboardData> {
   const [totalProducts, totalStores, prices, recentPrices] = await Promise.all([
-    prisma.product.count(),
-    prisma.supermarket.count(),
+    prisma.product.count({
+      where: {
+        userId,
+      },
+    }),
+    prisma.supermarket.count({
+      where: {
+        userId,
+      },
+    }),
     prisma.price.findMany({
+      where: {
+        product: {
+          userId,
+        },
+      },
       include: {
         product: true,
         supermarket: true,
@@ -37,6 +50,11 @@ export async function getDashboardData(): Promise<DashboardData> {
       },
     }),
     prisma.price.findMany({
+      where: {
+        product: {
+          userId,
+        },
+      },
       take: 5,
       include: {
         product: true,
