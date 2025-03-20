@@ -24,7 +24,6 @@ export const useAddPriceDialog = ({ supermarkets }: AddPriceDialogProps) => {
     setSelectedProduct,
   } = useProductStore();
 
-  console.log('selectedProduct', selectedProduct);
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -47,6 +46,7 @@ export const useAddPriceDialog = ({ supermarkets }: AddPriceDialogProps) => {
         productId: selectedProduct.id,
         price: data.price,
         supermarketId: data.supermarketId,
+        userId: session.user.id as string,
       });
       toast.success('Prix ajouté avec succès');
       handleClose(false);

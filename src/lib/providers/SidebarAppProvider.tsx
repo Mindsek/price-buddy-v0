@@ -19,7 +19,7 @@ export const SidebarAppProvider = async ({
 }) => {
   const session = await auth();
 
-  if (!session?.user) {
+  if (!session?.user || !session.user.id) {
     redirect(LOGIN);
   }
 

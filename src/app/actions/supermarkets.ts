@@ -38,9 +38,10 @@ import { Supermarket } from '@/types';
     },
   });
  */
-export async function getSupermarkets(): Promise<Supermarket[]> {
+export async function getSupermarkets(userId: string): Promise<Supermarket[]> {
   try {
     const supermarkets = await prisma.supermarket.findMany({
+      where: { userId },
       include: {
         prices: {
           include: {
@@ -67,11 +68,12 @@ export async function getSupermarkets(): Promise<Supermarket[]> {
 }
 
 export async function getSupermarketById(
-  id: string
+  id: string,
+  userId: string
 ): Promise<Supermarket | null> {
   try {
-    const supermarket = await prisma.supermarket.findUnique({
-      where: { id },
+    const supermarket = await prisma.supermarket.findFirst({
+      where: { id, userId },
       include: {
         prices: {
           include: {
@@ -114,10 +116,11 @@ export async function updateSupermarket({
   id,
   name,
   address,
-}: Pick<Supermarket, 'id' | 'name' | 'address'>) {
+  userId,
+}: Pick<Supermarket, 'id' | 'name' | 'address' | 'userId'>) {
   try {
     const updatedSupermarket = await prisma.supermarket.update({
-      where: { id },
+      where: { id, userId },
       data: {
         name,
         address,
@@ -132,10 +135,14 @@ export async function updateSupermarket({
   }
 }
 
-export async function deleteSupermarket(id: string) {
+export async function deleteSupermarket(id: string, userId: string) {
   try {
+    await prisma.price.deleteMany({
+      where: { supermarketId: id },
+    });
+
     await prisma.supermarket.delete({
-      where: { id },
+      where: { id, userId },
     });
 
     revalidatePath('/supermarkets');

@@ -1,6 +1,7 @@
 'use client';
 
 import { MoreHorizontal } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -12,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { deleteProduct } from '@/app/actions/products';
+import { deleteProduct, getProductById } from '@/app/actions/products';
 import { useProductStore } from '@/lib/store/product.store';
 import { Product } from '@/types';
 
@@ -21,6 +22,9 @@ type ProductDropdownProps = {
 };
 
 export const ProductDropdown = ({ product }: ProductDropdownProps) => {
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
+
   const {
     setIsViewDialogOpenAndSelectProduct,
     setIsAddPriceDialogOpenAndSelectProduct,
@@ -33,7 +37,17 @@ export const ProductDropdown = ({ product }: ProductDropdownProps) => {
 
   const handleDeleteProduct = async (product: Product) => {
     try {
-      await deleteProduct(product.id);
+      if (!userId) {
+        toast.error('Utilisateur non connecté');
+        return;
+      }
+
+      const isExist = await getProductById(product.id, userId);
+      if (!isExist) {
+        toast.error('Produit non trouvé');
+        return;
+      }
+      await deleteProduct(product.id, userId);
       toast.success(`Produit ${product.name} supprimé avec succès`);
     } catch (error) {
       console.error('Erreur lors de la suppression du produit:', error);

@@ -1,5 +1,6 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 
 import { Badge } from '@/components/ui/badge';
@@ -18,6 +19,7 @@ import { deletePrice } from '@/app/actions/products';
 import { useProductStore } from '@/lib/store/product.store';
 
 export function ProductDeletePrice() {
+  const { data: session } = useSession();
   const {
     selectedProduct,
     isDeletePriceDialogOpen,
@@ -32,7 +34,7 @@ export function ProductDeletePrice() {
 
   const handleDeletePrice = async (priceId: string) => {
     try {
-      await deletePrice(priceId);
+      await deletePrice(priceId, session?.user?.id as string);
       toast.success('Prix supprimé avec succès');
       handleClose(false);
     } catch (error) {

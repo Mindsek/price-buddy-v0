@@ -1,6 +1,7 @@
 'use client';
 
 import { MoreHorizontal } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -22,6 +23,7 @@ type SupermarketDropdownProps = {
 export const SupermarketDropdown = ({
   supermarket,
 }: SupermarketDropdownProps) => {
+  const { data: session } = useSession();
   const {
     setIsEditDialogOpenAndSelectSupermarket,
     setIsViewDialogOpenAndSelectSupermarket,
@@ -37,7 +39,7 @@ export const SupermarketDropdown = ({
 
   const handleDeleteSupermarket = async (supermarket: Supermarket) => {
     try {
-      await deleteSupermarket(supermarket.id);
+      await deleteSupermarket(supermarket.id, session?.user?.id as string);
       toast.success(`Supermarché ${supermarket.name} supprimé avec succès`);
     } catch (error) {
       console.error('Erreur lors de la suppression du supermarché:', error);

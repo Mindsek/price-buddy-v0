@@ -46,9 +46,10 @@ import { Price, Product } from '@/types';
 
   so now we have the product name, category, id and the supermarket name, address, id
  */
-export async function getProducts(): Promise<Product[]> {
+export async function getProducts(userId: string): Promise<Product[]> {
   try {
     const products = await prisma.product.findMany({
+      where: { userId },
       include: {
         prices: {
           include: {
@@ -71,10 +72,13 @@ export async function getProducts(): Promise<Product[]> {
   }
 }
 
-export async function getProductById(id: string): Promise<Product | null> {
+export async function getProductById(
+  id: string,
+  userId: string
+): Promise<Product | null> {
   try {
-    const product = await prisma.product.findUnique({
-      where: { id },
+    const product = await prisma.product.findFirst({
+      where: { id, userId },
       include: {
         prices: {
           include: {
@@ -123,10 +127,11 @@ export async function updateProduct({
   id,
   name,
   category,
-}: Pick<Product, 'id' | 'name' | 'category'>) {
+  userId,
+}: Pick<Product, 'id' | 'name' | 'category' | 'userId'>) {
   try {
     const updatedProduct = await prisma.product.update({
-      where: { id },
+      where: { id, userId },
       data: { name, category },
     });
 
@@ -138,14 +143,14 @@ export async function updateProduct({
   }
 }
 
-export async function deleteProduct(id: string) {
+export async function deleteProduct(id: string, userId: string) {
   try {
     await prisma.price.deleteMany({
       where: { productId: id },
     });
 
     await prisma.product.delete({
-      where: { id },
+      where: { id, userId },
     });
 
     revalidatePath('/products');
@@ -160,8 +165,17 @@ export async function addPriceToProduct({
   productId,
   price,
   supermarketId,
-}: Pick<Price, 'price' | 'productId' | 'supermarketId'>) {
+  userId,
+}: Pick<Price, 'price' | 'productId' | 'supermarketId'> & { userId: string }) {
   try {
+    const product = await prisma.product.findFirst({
+      where: { id: productId, userId },
+    });
+
+    if (!product) {
+      throw new Error('Product not found or not owned by user');
+    }
+
     const newPrice = await prisma.price.create({
       data: {
         price,
@@ -178,8 +192,17 @@ export async function addPriceToProduct({
   }
 }
 
-export async function deletePrice(priceId: string) {
+export async function deletePrice(priceId: string, userId: string) {
   try {
+    const price = await prisma.price.findFirst({
+      where: { id: priceId },
+      include: { product: true },
+    });
+
+    if (!price || price.product.userId !== userId) {
+      throw new Error('Price not found or not owned by user');
+    }
+
     await prisma.price.delete({
       where: { id: priceId },
     });

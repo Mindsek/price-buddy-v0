@@ -54,6 +54,7 @@ export const useEditSupermarketDialog = () => {
         name: data.name,
         address: data.address,
         id: selectedSupermarket.id,
+        userId: session.user.id as string,
       });
       toast.success(`Supermarché ${data.name} modifié avec succès`);
       form.reset();
