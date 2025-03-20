@@ -140,6 +140,10 @@ export async function updateProduct({
 
 export async function deleteProduct(id: string) {
   try {
+    await prisma.price.deleteMany({
+      where: { productId: id },
+    });
+
     await prisma.product.delete({
       where: { id },
     });
@@ -171,5 +175,18 @@ export async function addPriceToProduct({
   } catch (error) {
     console.error('Error adding price to product:', error);
     return null;
+  }
+}
+
+export async function deletePrice(priceId: string) {
+  try {
+    await prisma.price.delete({
+      where: { id: priceId },
+    });
+
+    revalidatePath('/products');
+  } catch (error) {
+    console.error('Error deleting price:', error);
+    throw new Error('Failed to delete price');
   }
 }
