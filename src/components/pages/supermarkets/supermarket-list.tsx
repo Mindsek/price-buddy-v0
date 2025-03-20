@@ -1,17 +1,9 @@
 'use client';
 
-import { MapPin, MoreHorizontal, Store } from 'lucide-react';
+import { MapPin, Store } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import { toast } from 'sonner';
 
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
@@ -22,9 +14,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { deleteSupermarket } from '@/app/actions/supermarkets';
+import { SupermarketDropdown } from './supermarket-dropdown';
+
 import { useMounted } from '@/hooks/use-mounted';
-import { useSupermarketStore } from '@/lib/store/supermarket.store';
 import { Supermarket } from '@/types';
 
 type SupermarketListProps = {
@@ -35,10 +27,6 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
   const isMounted = useMounted();
   const { data: session } = useSession();
   const userId = session?.user?.id;
-  const {
-    setIsEditDialogOpenAndSelectSupermarket,
-    setIsViewDialogOpenAndSelectSupermarket,
-  } = useSupermarketStore();
 
   if (!isMounted || !userId) {
     return (
@@ -68,24 +56,6 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
       </div>
     );
   }
-
-  const handleDeleteSupermarket = async (supermarket: Supermarket) => {
-    try {
-      await deleteSupermarket(supermarket.id);
-      toast.success(`Supermarché ${supermarket.name} supprimé avec succès`);
-    } catch (error) {
-      console.error('Erreur lors de la suppression du supermarché:', error);
-      toast.error('Erreur lors de la suppression du supermarché');
-    }
-  };
-
-  const handleEditSupermarket = (supermarket: Supermarket) => {
-    setIsEditDialogOpenAndSelectSupermarket(supermarket);
-  };
-
-  const handleViewSupermarket = (supermarket: Supermarket) => {
-    setIsViewDialogOpenAndSelectSupermarket(supermarket);
-  };
 
   return (
     <div className='rounded-md border'>
@@ -140,32 +110,7 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
                     </div>
                   </TableCell>
                   <TableCell className='text-right'>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant='ghost' size='sm'>
-                          <MoreHorizontal className='h-4 w-4' />
-                          <span className='sr-only'>Menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align='end'>
-                        <DropdownMenuItem
-                          onClick={() => handleViewSupermarket(supermarket)}
-                        >
-                          Voir les details
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          onClick={() => handleEditSupermarket(supermarket)}
-                        >
-                          Modifier
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                          className='text-red-600'
-                          onClick={() => handleDeleteSupermarket(supermarket)}
-                        >
-                          Supprimer
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <SupermarketDropdown supermarket={supermarket} />
                   </TableCell>
                 </TableRow>
               );
