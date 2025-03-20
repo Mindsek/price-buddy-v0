@@ -26,6 +26,7 @@ import { SupermarketDetail } from './supermarket-detail';
 
 import { deleteSupermarket } from '@/app/actions/supermarkets';
 import { useMounted } from '@/hooks/use-mounted';
+import { useSupermarketStore } from '@/lib/store/supermarket.store';
 import { Supermarket } from '@/types';
 
 type SupermarketListProps = {
@@ -36,6 +37,10 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
   const isMounted = useMounted();
   const { data: session } = useSession();
   const userId = session?.user?.id;
+  // const setIsEditDialogOpenAndSelectSupermarket = useSupermarketStore(
+  //   (state) => state.setIsEditDialogOpenAndSelectSupermarket
+  // );
+  const { setIsEditDialogOpenAndSelectSupermarket } = useSupermarketStore();
 
   if (!isMounted || !userId) {
     return (
@@ -76,7 +81,9 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
     }
   };
 
-  console.log('supermarkets', supermarkets[0]);
+  const handleEditSupermarket = (supermarket: Supermarket) => {
+    setIsEditDialogOpenAndSelectSupermarket(true, supermarket);
+  };
 
   return (
     <div className='rounded-md border'>
@@ -142,7 +149,11 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
                         <DropdownMenuItem asChild>
                           <SupermarketDetail supermarket={supermarket} />
                         </DropdownMenuItem>
-                        <DropdownMenuItem>Modifier</DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => handleEditSupermarket(supermarket)}
+                        >
+                          Modifier
+                        </DropdownMenuItem>
                         <DropdownMenuItem
                           className='text-red-600'
                           onClick={() => handleDeleteSupermarket(supermarket)}

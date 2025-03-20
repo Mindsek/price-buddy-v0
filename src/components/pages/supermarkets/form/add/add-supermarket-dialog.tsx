@@ -22,19 +22,11 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { useAddSupermarketDialog } from './add-supermarket-dialog.logic';
 
-type AddSupermarketDialogProps = {
-  isOpen: boolean;
-  onClose: () => void;
-};
-
-export const AddSupermarketDialog = ({
-  isOpen,
-  onClose,
-}: AddSupermarketDialogProps) => {
-  const logic = useAddSupermarketDialog({ onClose });
+export const AddSupermarketDialog = () => {
+  const logic = useAddSupermarketDialog();
 
   return (
-    <Dialog open={isOpen} onOpenChange={logic.handleClose}>
+    <Dialog open={logic.isAddDialogOpen} onOpenChange={logic.handleClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Ajouter un supermarché</DialogTitle>

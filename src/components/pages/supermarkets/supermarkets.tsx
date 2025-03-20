@@ -1,15 +1,16 @@
 'use client';
 
 import { Plus, Search } from 'lucide-react';
-import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 
 import { AddSupermarketDialog } from './form/add/add-supermarket-dialog';
+import { EditSupermarketDialog } from './form/edit/edit-supermarket-dialog';
 import { SupermarketList } from './supermarket-list';
 
+import { useSupermarketStore } from '@/lib/store/supermarket.store';
 import { Supermarket } from '@/types';
 
 export const SupermarketsPage = ({
@@ -17,8 +18,8 @@ export const SupermarketsPage = ({
 }: {
   supermarkets: Supermarket[];
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const { searchTerm, setSearchTerm, setIsAddDialogOpen } =
+    useSupermarketStore();
 
   const filteredSupermarkets = supermarkets.filter((supermarket) => {
     return (
@@ -60,10 +61,8 @@ export const SupermarketsPage = ({
         </CardContent>
       </Card>
 
-      <AddSupermarketDialog
-        isOpen={isAddDialogOpen}
-        onClose={() => setIsAddDialogOpen(false)}
-      />
+      <AddSupermarketDialog />
+      <EditSupermarketDialog />
     </div>
   );
 };

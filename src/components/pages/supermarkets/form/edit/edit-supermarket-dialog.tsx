@@ -22,28 +22,16 @@ import { Textarea } from '@/components/ui/textarea';
 
 import { useEditSupermarketDialog } from './edit-supermarket-dialog.logic';
 
-import { Supermarket } from '@/types';
-
-type EditSupermarketDialogProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  supermarket: Supermarket;
-};
-
-export const EditSupermarketDialog = ({
-  isOpen,
-  onClose,
-  supermarket,
-}: EditSupermarketDialogProps) => {
-  const logic = useEditSupermarketDialog({ onClose, supermarket });
+export const EditSupermarketDialog = () => {
+  const logic = useEditSupermarketDialog();
 
   return (
-    <Dialog open={isOpen} onOpenChange={logic.handleClose}>
+    <Dialog open={logic.isEditDialogOpen} onOpenChange={logic.handleClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Ajouter un supermarché</DialogTitle>
+          <DialogTitle>Modifier le supermarché</DialogTitle>
           <DialogDescription>
-            Entrez les informations du nouveau supermarché.
+            Modifier les informations du supermarché.
           </DialogDescription>
         </DialogHeader>
         <Form {...logic.form}>
@@ -96,8 +84,8 @@ export const EditSupermarketDialog = ({
                 disabled={logic.form.formState.isSubmitting}
               >
                 {logic.form.formState.isSubmitting
-                  ? 'Ajout en cours...'
-                  : 'Ajouter'}
+                  ? 'Modification en cours...'
+                  : 'Modifier'}
               </Button>
             </DialogFooter>
           </form>
