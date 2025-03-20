@@ -17,6 +17,7 @@ import {
 import { SupermarketDropdown } from './supermarket-dropdown';
 
 import { useMounted } from '@/hooks/use-mounted';
+import { useSupermarketStore } from '@/lib/store/supermarket.store';
 import { Supermarket } from '@/types';
 
 type SupermarketListProps = {
@@ -25,6 +26,7 @@ type SupermarketListProps = {
 
 export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
   const isMounted = useMounted();
+  const { setIsViewDialogOpenAndSelectSupermarket } = useSupermarketStore();
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
@@ -84,7 +86,12 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
                   : null;
 
               return (
-                <TableRow key={supermarket.id}>
+                <TableRow
+                  key={supermarket.id}
+                  onDoubleClick={() =>
+                    setIsViewDialogOpenAndSelectSupermarket(supermarket)
+                  }
+                >
                   <TableCell className='font-medium'>
                     <div className='flex items-center gap-2'>
                       <Store className='h-4 w-4 text-muted-foreground' />
