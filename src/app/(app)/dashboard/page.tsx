@@ -1,7 +1,7 @@
-const DashboardPage = async () => {
-  return (
-    <div className='flex flex-col items-center min-h-screen justify-center gap-8'></div>
-  );
-};
+import { getDashboardData } from '@/app/actions/dashboard';
+import DashboardPage from '@/components/pages/dashboard/dashboard';
 
-export default DashboardPage;
+export default async function Dashboard() {
+  const data = await getDashboardData();
+  return <DashboardPage data={data} />;
+}
