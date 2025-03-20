@@ -8,22 +8,27 @@ import { toast } from 'sonner';
 import { FormSchema, FormSchemaType } from './add-price-dialog.schema';
 
 import { addPriceToProduct } from '@/app/actions/products';
-import { Product } from '@/types';
+import { useProductStore } from '@/lib/store/product.store';
+import { Supermarket } from '@/types';
 
 type AddPriceDialogProps = {
-  onClose: () => void;
-  product: Product;
+  supermarkets: Supermarket[];
 };
 
-export const useAddPriceDialog = ({
-  onClose,
-  product,
-}: AddPriceDialogProps) => {
+export const useAddPriceDialog = ({ supermarkets }: AddPriceDialogProps) => {
   const { data: session } = useSession();
+  const {
+    selectedProduct,
+    isAddPriceDialogOpen,
+    setIsAddPriceDialogOpen,
+    setSelectedProduct,
+  } = useProductStore();
+
+  console.log('selectedProduct', selectedProduct);
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      supermarketId: '',
+      supermarketId: supermarkets[0].id,
       price: 0,
     },
   });
@@ -34,24 +39,34 @@ export const useAddPriceDialog = ({
         throw new Error('User not found');
       }
 
+      if (!selectedProduct) {
+        throw new Error('Product not found');
+      }
+
       await addPriceToProduct({
-        productId: product.id,
+        productId: selectedProduct.id,
         price: data.price,
         supermarketId: data.supermarketId,
       });
       toast.success('Prix ajouté avec succès');
-      form.reset();
-      onClose();
+      handleClose(false);
     } catch (error) {
       console.error("Erreur lors de l'ajout du prix:", error);
       toast.error("Erreur lors de l'ajout du prix");
     }
   };
 
-  const handleClose = () => {
+  const handleClose = (open: boolean) => {
     form.reset();
-    onClose();
+    setIsAddPriceDialogOpen(open);
+    setSelectedProduct(null);
   };
 
-  return { form, handleSubmit, handleClose };
+  return {
+    form,
+    handleSubmit,
+    handleClose,
+    isAddPriceDialogOpen,
+    selectedProduct,
+  };
 };

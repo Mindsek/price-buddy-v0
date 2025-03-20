@@ -12,13 +12,12 @@ import {
 } from './add-product-dialog.schema';
 
 import { createProduct } from '@/app/actions/products';
+import { useProductStore } from '@/lib/store/product.store';
 
-type AddProductDialogProps = {
-  onClose: () => void;
-};
-
-export const useAddProductDialog = ({ onClose }: AddProductDialogProps) => {
+export const useAddProductDialog = () => {
   const { data: session } = useSession();
+  const { setIsAddProductDialogOpen, isAddProductDialogOpen } =
+    useProductStore();
   const form = useForm<ProductSchemaType>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
@@ -39,18 +38,17 @@ export const useAddProductDialog = ({ onClose }: AddProductDialogProps) => {
         userId: session.user.id as string,
       });
       toast.success(`Produit ${data.name} ajouté avec succès`);
-      form.reset();
-      onClose();
+      handleClose(false);
     } catch (error) {
       console.error('Error creating product:', error);
       toast.error(`Erreur lors de la création du produit ${data.name}`);
     }
   };
 
-  const handleClose = () => {
+  const handleClose = (open: boolean) => {
     form.reset();
-    onClose();
+    setIsAddProductDialogOpen(open);
   };
 
-  return { form, onSubmit, handleClose };
+  return { form, onSubmit, handleClose, isAddProductDialogOpen };
 };

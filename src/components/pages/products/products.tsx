@@ -1,7 +1,6 @@
 'use client';
 
 import { Plus, Search } from 'lucide-react';
-import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,8 +8,11 @@ import { Input } from '@/components/ui/input';
 
 import { AddPriceDialog } from './form/price/add-price-dialog';
 import { AddProductDialog } from './form/product/add-product-dialog';
+import { ProductDeletePrice } from './product-delete-price';
+import { ProductDetail } from './product-detail';
 import { ProductList } from './product-list';
 
+import { useProductStore } from '@/lib/store/product.store';
 import { Product, Supermarket } from '@/types';
 
 export const ProductsPage = ({
@@ -20,9 +22,8 @@ export const ProductsPage = ({
   supermarkets: Supermarket[];
   products: Product[];
 }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const { searchTerm, setSearchTerm, setIsAddProductDialogOpen } =
+    useProductStore();
 
   const filteredProducts = products.filter((product) => {
     return (
@@ -39,7 +40,7 @@ export const ProductsPage = ({
             <h1 className='text-2xl font-bold'>Liste des produits</h1>
           </CardTitle>
           <Button
-            onClick={() => setIsAddProductOpen(true)}
+            onClick={() => setIsAddProductDialogOpen(true)}
             className='cursor-pointer'
           >
             <Plus className='mr-2 h-4 w-4' />
@@ -59,27 +60,15 @@ export const ProductsPage = ({
               />
             </div>
 
-            <ProductList
-              products={filteredProducts}
-              selectProduct={(product) => setSelectedProduct(product)}
-            />
+            <ProductList products={filteredProducts} />
           </div>
         </CardContent>
       </Card>
 
-      <AddProductDialog
-        isOpen={isAddProductOpen}
-        onClose={() => setIsAddProductOpen(false)}
-      />
-
-      {selectedProduct && (
-        <AddPriceDialog
-          isOpen={!!selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-          product={selectedProduct}
-          supermarkets={supermarkets}
-        />
-      )}
+      <AddProductDialog />
+      <AddPriceDialog supermarkets={supermarkets} />
+      <ProductDetail />
+      <ProductDeletePrice />
     </div>
   );
 };

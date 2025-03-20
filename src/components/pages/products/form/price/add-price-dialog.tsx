@@ -28,12 +28,9 @@ import {
 
 import { useAddPriceDialog } from './add-price-dialog.logic';
 
-import { Product, Supermarket } from '@/types';
+import { Supermarket } from '@/types';
 
 type AddPriceDialogProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  product: Product;
   supermarkets: Supermarket[];
 };
 
@@ -41,12 +38,12 @@ export const AddPriceDialog = (props: AddPriceDialogProps) => {
   const logic = useAddPriceDialog(props);
 
   return (
-    <Dialog open={props.isOpen} onOpenChange={props.onClose}>
+    <Dialog open={logic.isAddPriceDialogOpen} onOpenChange={logic.handleClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Ajouter un prix</DialogTitle>
           <DialogDescription>
-            Ajouter un prix pour {props.product.name}
+            Ajouter un prix pour {logic.selectedProduct?.name}
           </DialogDescription>
         </DialogHeader>
         <Form {...logic.form}>
@@ -104,7 +101,7 @@ export const AddPriceDialog = (props: AddPriceDialogProps) => {
               <Button
                 type='button'
                 variant='outline'
-                onClick={logic.handleClose}
+                onClick={() => logic.handleClose(false)}
               >
                 Annuler
               </Button>
