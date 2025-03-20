@@ -16,6 +16,8 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 
+import { ToggleThemeButton } from './toggle-theme';
+
 import { NavMain } from '@/components/layout/sidebar/nav-main';
 import { NavUser } from '@/components/layout/sidebar/nav-user';
 
@@ -44,7 +46,7 @@ export function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar> & { session: Session }) {
   return (
-    <Sidebar variant='inset' {...props}>
+    <Sidebar variant='inset' collapsible='icon' {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -69,6 +71,7 @@ export function AppSidebar({
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
+        <ToggleThemeButton />
         <NavUser session={session} />
       </SidebarFooter>
     </Sidebar>
