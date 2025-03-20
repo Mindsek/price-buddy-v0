@@ -34,8 +34,8 @@ export function NavMain({
     }[];
   }[];
 }) {
-  const pathname = usePathname(); 
-  const activeStates = items.map((item) => pathname.includes(item.url)); 
+  const pathname = usePathname();
+  const activeStates = items.map((item) => pathname.includes(item.url));
 
   return (
     <SidebarGroup>
