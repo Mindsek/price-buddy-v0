@@ -20,6 +20,8 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 
+import { cn } from '@/lib/utils';
+
 export function NavMain({
   items,
 }: {
@@ -45,7 +47,13 @@ export function NavMain({
           return (
             <Collapsible key={item.title} asChild defaultOpen={isActive}>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip={item.title}>
+                <SidebarMenuButton
+                  asChild
+                  tooltip={item.title}
+                  className={cn({
+                    'bg-primary text-primary-foreground': isActive,
+                  })}
+                >
                   <Link href={item.url}>
                     <item.icon />
                     <span>{item.title}</span>
