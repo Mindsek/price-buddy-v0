@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 
 import { AddSupermarketDialog } from './form/add/add-supermarket-dialog';
 import { EditSupermarketDialog } from './form/edit/edit-supermarket-dialog';
+import { SupermarketDetail } from './supermarket-detail';
 import { SupermarketList } from './supermarket-list';
 
 import { useSupermarketStore } from '@/lib/store/supermarket.store';
@@ -63,6 +64,7 @@ export const SupermarketsPage = ({
 
       <AddSupermarketDialog />
       <EditSupermarketDialog />
+      <SupermarketDetail />
     </div>
   );
 };

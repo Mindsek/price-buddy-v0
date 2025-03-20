@@ -22,8 +22,6 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { SupermarketDetail } from './supermarket-detail';
-
 import { deleteSupermarket } from '@/app/actions/supermarkets';
 import { useMounted } from '@/hooks/use-mounted';
 import { useSupermarketStore } from '@/lib/store/supermarket.store';
@@ -37,10 +35,10 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
   const isMounted = useMounted();
   const { data: session } = useSession();
   const userId = session?.user?.id;
-  // const setIsEditDialogOpenAndSelectSupermarket = useSupermarketStore(
-  //   (state) => state.setIsEditDialogOpenAndSelectSupermarket
-  // );
-  const { setIsEditDialogOpenAndSelectSupermarket } = useSupermarketStore();
+  const {
+    setIsEditDialogOpenAndSelectSupermarket,
+    setIsViewDialogOpenAndSelectSupermarket,
+  } = useSupermarketStore();
 
   if (!isMounted || !userId) {
     return (
@@ -82,7 +80,11 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
   };
 
   const handleEditSupermarket = (supermarket: Supermarket) => {
-    setIsEditDialogOpenAndSelectSupermarket(true, supermarket);
+    setIsEditDialogOpenAndSelectSupermarket(supermarket);
+  };
+
+  const handleViewSupermarket = (supermarket: Supermarket) => {
+    setIsViewDialogOpenAndSelectSupermarket(supermarket);
   };
 
   return (
@@ -146,8 +148,10 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align='end'>
-                        <DropdownMenuItem asChild>
-                          <SupermarketDetail supermarket={supermarket} />
+                        <DropdownMenuItem
+                          onClick={() => handleViewSupermarket(supermarket)}
+                        >
+                          Voir les details
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => handleEditSupermarket(supermarket)}
