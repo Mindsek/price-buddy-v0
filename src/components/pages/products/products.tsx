@@ -5,6 +5,7 @@ import { Plus, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { TableCell, TableRow } from '@/components/ui/table';
 
 import { AddPriceDialog } from './form/price/add-price-dialog';
 import { AddProductDialog } from './form/product/add-product-dialog';
@@ -66,7 +67,15 @@ export const ProductsPage = ({
       </Card>
 
       <AddProductDialog />
-      <AddPriceDialog supermarkets={supermarkets} />
+      {supermarkets.length === 0 ? (
+        <TableRow>
+          <TableCell colSpan={5} className='text-center'>
+            Aucun produits trouvé
+          </TableCell>
+        </TableRow>
+      ) : (
+        <AddPriceDialog supermarkets={supermarkets} />
+      )}
       <ProductDetail />
       <ProductDeletePrice />
     </div>
