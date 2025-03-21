@@ -11,7 +11,7 @@ const NotFound = () => {
         <h1 className='lg:text-4xl text-2xl font-bold text-center'>
           Cette page n&apos;existe pas
         </h1>
-        <Link href='/dashboard'>
+        <Link href='/'>
           <Button>Retour à la page d&apos;accueil</Button>
         </Link>
       </div>

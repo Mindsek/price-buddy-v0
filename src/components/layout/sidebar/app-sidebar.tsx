@@ -25,7 +25,7 @@ const data = {
   navMain: [
     {
       title: 'Accueil',
-      url: '/dashboard',
+      url: '/',
       icon: HomeIcon,
     },
     {
@@ -51,7 +51,7 @@ export function AppSidebar({
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size='lg' asChild>
-              <Link href='/dashboard'>
+              <Link href='/'>
                 <Image
                   src='/icons/ic_price_buddy_192.png'
                   alt='Price Buddy'
