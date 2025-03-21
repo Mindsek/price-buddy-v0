@@ -15,7 +15,7 @@ type DashboardPageProps = {
 
 export default function DashboardPage({ data }: DashboardPageProps) {
   return (
-    <div className='flex-1 space-y-4 p-8 pt-6'>
+    <div className='flex-1 space-y-4 p-8 pt-6 @container'>
       <div className='flex items-center justify-between space-y-2'>
         <h2 className='text-3xl font-bold tracking-tight'>Tableau de bord</h2>
       </div>
@@ -31,13 +31,14 @@ export default function DashboardPage({ data }: DashboardPageProps) {
             totalStores={data.totalStores}
             bestSavingPercentage={data.bestSavingPercentage}
           />
-          <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-7'>
+          {/* max-md:flex-col */}
+          <div className='flex gap-4 flex-col @[50rem]:flex-row'>
             <PriceComparisons
-              className='col-span-4'
+              className='w-full @[50rem]:w-2/3'
               priceComparisons={data.priceComparisons}
             />
             <RecentProducts
-              className='col-span-3'
+              className='w-full @[50rem]:w-1/3'
               recentProducts={data.recentProducts}
             />
           </div>

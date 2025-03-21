@@ -31,7 +31,7 @@ export function RecentProducts({
   recentProducts,
 }: RecentProductsProps) {
   return (
-    <Card className={cn('col-span-3', className)}>
+    <Card className={cn('w-full', className)}>
       <CardHeader>
         <CardTitle>Ajouts Récents</CardTitle>
         <CardDescription>Les derniers prix ajoutés</CardDescription>
