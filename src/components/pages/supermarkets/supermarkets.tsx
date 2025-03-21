@@ -32,9 +32,11 @@ export const SupermarketsPage = ({
   return (
     <div className='mx-auto p-10 w-full'>
       <Card>
-        <CardHeader className='flex flex-row items-center justify-between'>
+        <CardHeader className='flex flex-row items-center justify-between flex-wrap'>
           <CardTitle>
-            <h1 className='text-2xl font-bold'>Liste des supermarchés</h1>
+            <h1 className='text-lg md:text-2xl font-bold'>
+              Liste des supermarchés
+            </h1>
           </CardTitle>
           <Button
             onClick={() => setIsAddDialogOpen(true)}
