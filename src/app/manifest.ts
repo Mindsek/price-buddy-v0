@@ -3,12 +3,13 @@ import type { MetadataRoute } from 'next';
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Price Buddy',
+    description: 'Un comparateur de prix simple et efficace.',
     short_name: 'PriceBuddy',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',
     theme_color: '#007bff',
-    description: 'Un comparateur de prix simple et efficace.',
+    orientation: 'portrait',
     icons: [
       {
         src: '/icons/ic_price_buddy_192.png',

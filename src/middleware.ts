@@ -2,7 +2,6 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  // Rediriger / vers /dashboard
   if (request.nextUrl.pathname === '/') {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
