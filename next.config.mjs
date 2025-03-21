@@ -37,10 +37,25 @@ export default withPWAInit({
           statuses: [0, 200]
         }
       }
+    },
+    {
+      urlPattern: /\.(png|jpg|jpeg|svg|gif|ico|webp)$/,
+      handler: 'CacheFirst',
+      options: {
+        cacheName: 'image-cache',
+        expiration: {
+          maxEntries: 50,
+          maxAgeSeconds: 30 * 24 * 60 * 60 // 30 jours
+        },
+        cacheableResponse: {
+          statuses: [0, 200]
+        }
+      }
     }
   ],
   fallbacks: {
     document: '/~offline',
+    image: '/icons/ic_price_buddy_192.png',
     audio: false,
     video: false,
   },
