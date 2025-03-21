@@ -5,7 +5,6 @@ import { Plus, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { TableCell, TableRow } from '@/components/ui/table';
 
 import { AddPriceDialog } from './form/price/add-price-dialog';
 import { AddProductDialog } from './form/product/add-product-dialog';
@@ -36,9 +35,11 @@ export const ProductsPage = ({
   return (
     <div className='mx-auto p-10 w-full'>
       <Card>
-        <CardHeader className='flex flex-row items-center justify-between'>
+        <CardHeader className='flex flex-row items-center justify-between flex-wrap'>
           <CardTitle>
-            <h1 className='text-2xl font-bold'>Liste des produits</h1>
+            <h1 className='text-lg md:text-2xl font-bold'>
+              Liste des produits
+            </h1>
           </CardTitle>
           <Button
             onClick={() => setIsAddProductDialogOpen(true)}
@@ -67,15 +68,7 @@ export const ProductsPage = ({
       </Card>
 
       <AddProductDialog />
-      {supermarkets.length === 0 ? (
-        <TableRow>
-          <TableCell colSpan={5} className='text-center'>
-            Aucun produits trouvé
-          </TableCell>
-        </TableRow>
-      ) : (
-        <AddPriceDialog supermarkets={supermarkets} />
-      )}
+      <AddPriceDialog supermarkets={supermarkets} />
       <ProductDetail />
       <ProductDeletePrice />
     </div>

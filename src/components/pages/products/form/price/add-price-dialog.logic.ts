@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -27,10 +28,18 @@ export const useAddPriceDialog = ({ supermarkets }: AddPriceDialogProps) => {
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      supermarketId: supermarkets[0].id,
+      supermarketId: '',
       price: 0,
     },
   });
+
+  useEffect(() => {
+    if (supermarkets.length > 0) {
+      form.reset({
+        supermarketId: supermarkets[0].id,
+      });
+    }
+  }, [supermarkets, form]);
 
   const handleSubmit = async (data: FormSchemaType) => {
     try {
