@@ -22,10 +22,30 @@ export default function manifest(): MetadataRoute.Manifest {
         type: 'image/png',
       },
       {
-        src: '/icons/ic_price_buddy_512.png',
+        src: '/icons/maskable_192.png',
+        sizes: '192x192',
+        type: 'image/png',
+        purpose: 'maskable',
+      },
+      {
+        src: '/icons/maskable_512.png',
         sizes: '512x512',
         type: 'image/png',
         purpose: 'maskable',
+      },
+    ],
+    screenshots: [
+      {
+        src: '/screenshots/screenshot_540x960.png',
+        sizes: '540x960',
+        type: 'image/png',
+        form_factor: 'narrow',
+      },
+      {
+        src: '/screenshots/screenshot_1440x900.png',
+        sizes: '1440x900',
+        type: 'image/png',
+        form_factor: 'wide',
       },
     ],
   };
