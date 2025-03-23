@@ -5,47 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { Price, Product } from '@/types';
 
-/**
- here same we want to have all products with their prices and supermarkets
 
- so at beginning we have something like this:
-
- {
-  "id": "1",
-  "name": "Product 1",
-  "category": "Category 1",
-  "prices": [
-    {
-      "id": "1",
-      "price": 10,
-      "supermarketId": "1"
-    }
-  ]
-
-  we have a product with id 1 and a price of 10 at the supermarket with id 1 but we don't know the supermarket name and address
-
-  so we need to fetch the supermarket name and address from the supermarket table and join it to the product table
-
-  we can do this by using the following query:
-
-  const products = await prisma.product.findMany({
-    include: {
-      prices: {
-        include: {
-          supermarket: {
-            select: {
-              name: true,
-              address: true,
-              id: true,
-            },
-          },
-        },
-      },
-    },
-  });
-
-  so now we have the product name, category, id and the supermarket name, address, id
- */
 export async function getProducts(userId: string): Promise<Product[]> {
   try {
     const products = await prisma.product.findMany({
