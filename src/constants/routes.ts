@@ -7,4 +7,9 @@ export const PUBLIC_ROUTES = [
   '/api/auth/callback/github',
 ];
 
-export const PROTECTED_SUB_ROUTES = ['/dashboard'];
+export const PROTECTED_SUB_ROUTES = [
+  '/',
+  '/dashboard',
+  '/products',
+  '/supermarkets',
+];

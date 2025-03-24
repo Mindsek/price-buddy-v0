@@ -1,7 +1,9 @@
-const DashboardPage = async () => {
-  return (
-    <div className='flex flex-col items-center min-h-screen justify-center gap-8'></div>
-  );
-};
+import { getDashboardData } from '@/app/actions/dashboard';
+import { auth } from '@/auth';
+import DashboardPage from '@/components/pages/dashboard/dashboard';
 
-export default DashboardPage;
+export default async function Dashboard() {
+  const session = await auth();
+  const data = await getDashboardData(session?.user?.id as string);
+  return <DashboardPage data={data} />;
+}

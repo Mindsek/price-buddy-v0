@@ -1,8 +1,5 @@
 'use client';
 
-import { PlusCircle } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
@@ -13,16 +10,20 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+import { ProductDropdown } from './product-dropdown';
+
 import { useMounted } from '@/hooks/use-mounted';
+import { useProductStore } from '@/lib/store/product.store';
 import { Product } from '@/types';
 
 type ProductListProps = {
   products: Product[];
-  selectProduct: (product: Product) => void;
 };
 
-export const ProductList = ({ products, selectProduct }: ProductListProps) => {
+export const ProductList = ({ products }: ProductListProps) => {
   const isMounted = useMounted();
+  const { setIsViewDialogOpenAndSelectProduct } = useProductStore();
+
   if (!isMounted) {
     return (
       <div className='rounded-md border'>
@@ -85,7 +86,10 @@ export const ProductList = ({ products, selectProduct }: ProductListProps) => {
         </TableHeader>
         <TableBody>
           {products.map((product) => (
-            <TableRow key={product.id}>
+            <TableRow
+              key={product.id}
+              onDoubleClick={() => setIsViewDialogOpenAndSelectProduct(product)}
+            >
               <TableCell>{product.name}</TableCell>
               <TableCell>{product.category}</TableCell>
               <TableCell>
@@ -97,14 +101,8 @@ export const ProductList = ({ products, selectProduct }: ProductListProps) => {
               <TableCell>
                 {getPriceDifference(product.prices) ?? 'N/A'} %
               </TableCell>
-              <TableCell>
-                <Button
-                  variant='ghost'
-                  size='icon'
-                  onClick={() => selectProduct(product)}
-                >
-                  <PlusCircle className='h-4 w-4' />
-                </Button>
+              <TableCell className='text-right'>
+                <ProductDropdown product={product} />
               </TableCell>
             </TableRow>
           ))}

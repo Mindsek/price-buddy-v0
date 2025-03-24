@@ -1,4 +1,5 @@
 import { Session } from 'next-auth';
+import { redirect } from 'next/navigation';
 import { ReactNode } from 'react';
 
 import {
@@ -9,13 +10,18 @@ import {
 
 import { auth } from '@/auth';
 import { AppSidebar } from '@/components/layout/sidebar/app-sidebar';
+import { LOGIN } from '@/constants/routes';
 
-export default async function SidebarWrapper({
+export const SidebarAppProvider = async ({
   children,
 }: {
   children: ReactNode;
-}) {
+}) => {
   const session = await auth();
+
+  if (!session?.user || !session.user.id) {
+    redirect(LOGIN);
+  }
 
   return (
     <SidebarProvider>
@@ -28,4 +34,4 @@ export default async function SidebarWrapper({
       </SidebarInset>
     </SidebarProvider>
   );
-}
+};

@@ -29,16 +29,14 @@ import {
 import { useAddProductDialog } from './add-product-dialog.logic';
 import { categories } from './add-product-dialog.schema';
 
-type AddProductDialogProps = {
-  isOpen: boolean;
-  onClose: () => void;
-};
-
-export function AddProductDialog({ isOpen, onClose }: AddProductDialogProps) {
-  const logic = useAddProductDialog({ onClose });
+export function AddProductDialog() {
+  const logic = useAddProductDialog();
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog
+      open={logic.isAddProductDialogOpen}
+      onOpenChange={logic.handleClose}
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Ajouter un produit</DialogTitle>
@@ -95,7 +93,7 @@ export function AddProductDialog({ isOpen, onClose }: AddProductDialogProps) {
               <Button
                 type='button'
                 variant='outline'
-                onClick={logic.handleClose}
+                onClick={() => logic.handleClose(false)}
               >
                 Annuler
               </Button>

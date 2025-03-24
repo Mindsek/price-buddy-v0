@@ -1,6 +1,6 @@
 'use client';
 
-import { ShoppingCartIcon, SquareTerminal, StoreIcon } from 'lucide-react';
+import { HomeIcon, ShoppingCartIcon, StoreIcon } from 'lucide-react';
 import { Session } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,6 +16,8 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 
+import { ToggleThemeButton } from './toggle-theme';
+
 import { NavMain } from '@/components/layout/sidebar/nav-main';
 import { NavUser } from '@/components/layout/sidebar/nav-user';
 
@@ -23,8 +25,8 @@ const data = {
   navMain: [
     {
       title: 'Accueil',
-      url: '/dashboard',
-      icon: SquareTerminal,
+      url: '/',
+      icon: HomeIcon,
     },
     {
       title: 'Produits',
@@ -44,12 +46,12 @@ export function AppSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar> & { session: Session }) {
   return (
-    <Sidebar variant='inset' {...props}>
+    <Sidebar variant='inset' collapsible='icon' {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size='lg' asChild>
-              <Link href='/dashboard'>
+              <Link href='/'>
                 <Image
                   src='/icons/ic_price_buddy_192.png'
                   alt='Price Buddy'
@@ -69,6 +71,7 @@ export function AppSidebar({
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
+        <ToggleThemeButton />
         <NavUser session={session} />
       </SidebarFooter>
     </Sidebar>

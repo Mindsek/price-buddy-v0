@@ -1,17 +1,9 @@
 'use client';
 
-import { MapPin, MoreHorizontal, Store } from 'lucide-react';
+import { MapPin, Store } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import { toast } from 'sonner';
 
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
@@ -22,10 +14,10 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { SupermarketDetail } from './supermarket-detail';
+import { SupermarketDropdown } from './supermarket-dropdown';
 
-import { deleteSupermarket } from '@/app/actions/supermarkets';
 import { useMounted } from '@/hooks/use-mounted';
+import { useSupermarketStore } from '@/lib/store/supermarket.store';
 import { Supermarket } from '@/types';
 
 type SupermarketListProps = {
@@ -34,6 +26,7 @@ type SupermarketListProps = {
 
 export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
   const isMounted = useMounted();
+  const { setIsViewDialogOpenAndSelectSupermarket } = useSupermarketStore();
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
@@ -66,18 +59,6 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
     );
   }
 
-  const handleDeleteSupermarket = async (supermarket: Supermarket) => {
-    try {
-      await deleteSupermarket(supermarket.id);
-      toast.success(`Supermarché ${supermarket.name} supprimé avec succès`);
-    } catch (error) {
-      console.error('Erreur lors de la suppression du supermarché:', error);
-      toast.error('Erreur lors de la suppression du supermarché');
-    }
-  };
-
-  console.log('supermarkets', supermarkets[0]);
-
   return (
     <div className='rounded-md border'>
       <Table>
@@ -105,7 +86,12 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
                   : null;
 
               return (
-                <TableRow key={supermarket.id}>
+                <TableRow
+                  key={supermarket.id}
+                  onDoubleClick={() =>
+                    setIsViewDialogOpenAndSelectSupermarket(supermarket)
+                  }
+                >
                   <TableCell className='font-medium'>
                     <div className='flex items-center gap-2'>
                       <Store className='h-4 w-4 text-muted-foreground' />
@@ -131,26 +117,7 @@ export const SupermarketList = ({ supermarkets }: SupermarketListProps) => {
                     </div>
                   </TableCell>
                   <TableCell className='text-right'>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant='ghost' size='sm'>
-                          <MoreHorizontal className='h-4 w-4' />
-                          <span className='sr-only'>Menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align='end'>
-                        <DropdownMenuItem asChild>
-                          <SupermarketDetail supermarket={supermarket} />
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>Modifier</DropdownMenuItem>
-                        <DropdownMenuItem
-                          className='text-red-600'
-                          onClick={() => handleDeleteSupermarket(supermarket)}
-                        >
-                          Supprimer
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <SupermarketDropdown supermarket={supermarket} />
                   </TableCell>
                 </TableRow>
               );
