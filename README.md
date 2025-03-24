@@ -37,7 +37,7 @@ Price Buddy is a Progressive Web App (PWA) designed to help users track and comp
 ## Authentication
 
 - **GitHub Login**: Securely log in using your GitHub account via NextAuth.
-- **Protected Routes**: Only authenticated users can access `/supermarkets`, `/products`, and `/dashboard`.
+- **Protected Routes**: Only authenticated users can access `/supermarkets`, `/products`, and `/dashboard` and `/`.
 
 ## Tech Stack
 
@@ -77,13 +77,27 @@ Price Buddy is a Progressive Web App (PWA) designed to help users track and comp
    AUTH_SECRET=your_auth_secret
    ```
 
-4. Start the development server:
+4. Générer les types Prisma:
+
+   ```bash
+   npx prisma generate
+   ```
+
+   Note: Cette étape est automatiquement incluse dans la commande `npm run build`.
+
+5. Démarrer le serveur de développement:
 
    ```bash
    npm run dev
    ```
 
-5. Open your browser and navigate to `http://localhost:3000` to access the application.
+   Ou pour un environnement de production:
+
+   ```bash
+   npm run build && npm run start
+   ```
+
+6. Accéder à l'application dans votre navigateur à l'adresse `http://localhost:3000`.
 
 ## Deployment
 
